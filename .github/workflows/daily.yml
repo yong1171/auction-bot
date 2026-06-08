@@ -1,0 +1,29 @@
+name: 스마트코브라 경매 자동검색
+
+on:
+  schedule:
+    - cron: '0 22 * * *'  # 매일 오전 7시 KST (UTC 22:00)
+  workflow_dispatch:  # 수동 실행 버튼도 활성화
+
+jobs:
+  auction-search:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 코드 가져오기
+        uses: actions/checkout@v4
+      
+      - name: Python 설치
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: 패키지 설치
+        run: pip install -r requirements.txt
+      
+      - name: 경매 검색 및 카카오톡 알림 실행
+        env:
+          KAKAO_REST_API_KEY: ${{ secrets.KAKAO_REST_API_KEY }}
+          KAKAO_REFRESH_TOKEN: ${{ secrets.KAKAO_REFRESH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main_once.py  # 1회 실행용 스크립트
