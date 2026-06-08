@@ -1,0 +1,16 @@
+# Render.com 배포 설정
+# 이 파일은 Render가 자동으로 읽습니다
+
+services:
+  - type: worker
+    name: smartcobra-auction-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    envVars:
+      - key: KAKAO_REST_API_KEY
+        value: 03ca6ba6cd8eef376d7b5c656b19338c
+      - key: KAKAO_REFRESH_TOKEN
+        sync: false  # Render 대시보드에서 직접 입력
+      - key: ANTHROPIC_API_KEY
+        sync: false  # Render 대시보드에서 직접 입력
